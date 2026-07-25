@@ -1,5 +1,7 @@
 # 🏁 Forza Code Vault
 
+**▶️ Play it: https://neelmaddu268.github.io/Praneel/**
+
 An interactive, high-octane quiz game built with **Next.js (App Router)**, **Tailwind CSS v4**, and **Lucide React**. Answer 5 questions to progressively decrypt a 25-character Forza Horizon game code — one segment per correct answer.
 
 ## How It Works
@@ -44,11 +46,9 @@ npm start
 
 **Vercel (recommended):** go to [vercel.com/new](https://vercel.com/new), import this repository, and click **Deploy**. Vercel auto-detects Next.js; no configuration needed.
 
-**GitHub Pages:** the [workflow](.github/workflows/deploy-pages.yml) is already committed and runs on every push to `main`. It needs Pages switched on once by hand, because the Actions token isn't allowed to create the Pages site itself:
+**GitHub Pages — live, and already automatic.** Pages is enabled with Source set to *GitHub Actions*, so every push to `main` rebuilds and redeploys via [the workflow](.github/workflows/deploy-pages.yml). Nothing to run by hand.
 
-> Repo **Settings → Pages → Build and deployment → Source: GitHub Actions**
-
-Then re-run the "Deploy to GitHub Pages" workflow from the Actions tab. The site publishes to `https://neelmaddu268.github.io/Praneel/`. The workflow sets `GITHUB_PAGES=true`, which flips [`next.config.ts`](next.config.ts) into static-export mode with the right `basePath` — Vercel deploys are unaffected.
+The workflow sets `GITHUB_PAGES=true`, which flips [`next.config.ts`](next.config.ts) into static-export mode with the right `basePath` for the `/Praneel/` project path. Vercel deploys are unaffected by that flag.
 
 **Vercel CLI:** `vercel --prod --yes` works from any machine with network access to `api.vercel.com`.
 
