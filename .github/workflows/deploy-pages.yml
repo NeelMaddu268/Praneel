@@ -24,7 +24,7 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
         with:
-          enablement: true
+          enablement: false
 
       - uses: actions/setup-node@v4
         with:
