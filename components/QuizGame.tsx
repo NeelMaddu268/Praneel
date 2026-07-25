@@ -299,6 +299,14 @@ export default function QuizGame() {
     };
   }, []);
 
+  // After advancing, move keyboard focus to the new question's prompt so
+  // keyboard/screen-reader users land on the next question instead of <body>
+  // (the previously focused submit button gets disabled during the reveal).
+  const promptRef = useRef<HTMLHeadingElement | null>(null);
+  useEffect(() => {
+    if (questionIndex > 0) promptRef.current?.focus();
+  }, [questionIndex]);
+
   const question: Question = QUESTIONS[questionIndex];
   const unlockedCount = phase === "revealing" ? questionIndex + 1 : questionIndex;
   const isFakeOut = question.kind === "text" && question.fakeOut === true;
@@ -485,7 +493,11 @@ export default function QuizGame() {
           )}
 
           {/* prompt */}
-          <h2 className="mb-5 text-xl leading-snug font-bold text-white sm:text-2xl">
+          <h2
+            ref={promptRef}
+            tabIndex={-1}
+            className="mb-5 text-xl leading-snug font-bold text-white focus:outline-none sm:text-2xl"
+          >
             {question.prompt}
           </h2>
 
@@ -506,6 +518,7 @@ export default function QuizGame() {
                     key={option}
                     type="button"
                     disabled={revealing}
+                    aria-pressed={selected}
                     onClick={() => {
                       setSelectedOption(i);
                       setError(false);
@@ -578,11 +591,10 @@ export default function QuizGame() {
           )}
 
           {/* ---------- FEEDBACK ROW ---------- */}
-          <div
-            className="mt-4 flex min-h-7 flex-wrap items-center justify-between gap-2"
-            aria-live="polite"
-          >
-            <div>
+          <div className="mt-4 flex min-h-7 flex-wrap items-center justify-between gap-2">
+            {/* live region holds ONLY the status text, so hint toggles don't
+                trigger spurious screen-reader announcements */}
+            <div aria-live="polite">
               {revealing ? (
                 <span className="inline-flex items-center gap-2 text-base font-bold text-neon-400">
                   <Unlock className="h-4 w-4" aria-hidden="true" />

@@ -142,9 +142,12 @@ export function normalizeAnswer(raw: string): string {
 }
 
 export function isTextAnswerCorrect(raw: string, question: TextQuestion): boolean {
+  if (raw.trim().length === 0) return false;
+  // The fake-out: check BEFORE normalization so punctuation-only, emoji, and
+  // non-Latin answers ("!!!", "🍹", "可乐") all count as the one true answer.
+  if (question.fakeOut) return true;
   const input = normalizeAnswer(raw);
   if (input.length === 0) return false;
-  if (question.fakeOut) return true; // the fake-out: everything is the one true answer
   return question.acceptedAnswers.some((accepted) => {
     const target = normalizeAnswer(accepted);
     return input === target || input.includes(target);

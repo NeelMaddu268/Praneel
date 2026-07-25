@@ -7,9 +7,10 @@
   --color-carbon-800: #16161f;
   --color-carbon-700: #1f1f2b;
   --color-carbon-600: #2a2a38;
-  --color-carbon-400: #4a4a5c;
-  --color-carbon-300: #6b6b80;
-  --color-carbon-200: #9a9aad;
+  --color-carbon-500: #3d3d4d;
+  --color-carbon-400: #7d7d92;
+  --color-carbon-300: #9a9aac;
+  --color-carbon-200: #b4b4c6;
 
   --color-neon-400: #4deaff;
   --color-neon-500: #00d9ff;
@@ -180,7 +181,8 @@ body {
   .animate-victory-glow,
   .animate-spark,
   .animate-speedline {
-    animation-duration: 0.01ms;
-    animation-iteration-count: 1;
+    /* !important so these also beat the inline durations on victory sparks */
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
