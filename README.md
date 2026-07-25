@@ -15,7 +15,7 @@ An interactive, high-octane quiz game built with **Next.js (App Router)**, **Tai
 
 All game content lives in [`lib/quiz-config.ts`](lib/quiz-config.ts):
 
-1. **`CAR_IMAGE_URL`** — replace the placeholder with your Imgur/Discord image link (the zoomed-in car detail for Question 2). Until it's set, Q2 shows an "Image feed offline" panel.
+1. **`CAR_IMAGE_URL`** — replace the placeholder with your Imgur/Discord image link (the zoomed-in car detail for Question 2). Until it's set, Q2 shows a styled "photo slot" panel. If you also use the standalone build, set the matching `CAR_IMAGE_URL` near the top of the `<script>` in [`standalone/forza-code-vault.html`](standalone/forza-code-vault.html).
 2. **`CAR_ACCEPTED_ANSWERS`** — update the accepted answers to match the car in *your* image. Matching is forgiving: capitalization, punctuation, and spacing are ignored.
 3. **`CAR_HINT`** — the hint shown for Question 2.
 4. **`CODE_SEGMENTS`** — the prize code, split into five 5-character segments.
@@ -36,16 +36,21 @@ npm run build
 npm start
 ```
 
-## Deploying to Vercel
+## Single-file build
 
-**Option A — Dashboard (fastest):** go to [vercel.com/new](https://vercel.com/new), import this GitHub repository, and click **Deploy**. Vercel auto-detects Next.js; no configuration needed.
+[`standalone/forza-code-vault.html`](standalone/forza-code-vault.html) is the whole game in one 93 KB HTML file — fonts inlined as data URIs, no build step, no network requests. Open it directly in a browser, email it, or drop it on any static host. It's a hand-maintained mirror of the Next.js app, so if you change a question in `lib/quiz-config.ts`, mirror it in the `QUESTIONS` array inside that file.
 
-**Option B — CLI:**
+## Deploying
 
-```bash
-npm i -g vercel
-vercel --prod --yes
-```
+**Vercel (recommended):** go to [vercel.com/new](https://vercel.com/new), import this repository, and click **Deploy**. Vercel auto-detects Next.js; no configuration needed.
+
+**GitHub Pages:** the [workflow](.github/workflows/deploy-pages.yml) is already committed and runs on every push to `main`. It needs Pages switched on once by hand, because the Actions token isn't allowed to create the Pages site itself:
+
+> Repo **Settings → Pages → Build and deployment → Source: GitHub Actions**
+
+Then re-run the "Deploy to GitHub Pages" workflow from the Actions tab. The site publishes to `https://neelmaddu268.github.io/Praneel/`. The workflow sets `GITHUB_PAGES=true`, which flips [`next.config.ts`](next.config.ts) into static-export mode with the right `basePath` — Vercel deploys are unaffected.
+
+**Vercel CLI:** `vercel --prod --yes` works from any machine with network access to `api.vercel.com`.
 
 ## Tech Stack
 
